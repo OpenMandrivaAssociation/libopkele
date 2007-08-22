@@ -1,14 +1,15 @@
-%define	major 1
-%define libname	%mklibname opkele %{major}
+%define	major 2
+%define libname %mklibname opkele %{major}
+%define develname %mklibname opkele -d
 
 Summary:	C++ implementation of OpenID protocol
 Name:		libopkele
-Version:	0.1.1
+Version:	0.3
 Release:	%mkrel 1
 Group:		System/Libraries
 License:	MIT
 URL:		http://kin.klever.net/libopkele/
-Source0:	http://kin.klever.net/dist/%{name}-%{version}.tar.bz2
+Source0:	http://kin.klever.net/dist/%{name}-%{version}.tar.gz
 BuildRequires:	autoconf2.5
 BuildRequires:	automake1.8
 BuildRequires:	libtool
@@ -17,7 +18,7 @@ BuildRequires:	doxygen
 BuildRequires:	libxslt-proc
 BuildRequires:	libkonforka-devel
 BuildRequires:	libcurl-devel
-BuildRequires:	libopenssl-devel
+BuildRequires:	openssl-devel
 BuildRequires:	libpcre-devel
 BuildRequires:	libpcre++-devel
 BuildRequires:	pqxx-devel
@@ -38,14 +39,15 @@ libopkele is a C++ implementation of an OpenID decentralized identity system.
 It provides OpenID protocol handling, leaving authentication and user
 interaction to the implementor.
 
-%package -n	%{libname}-devel
+%package -n	%{develname}
 Summary:	Static library and header files for the libopkele library
 Group:		Development/C++
-Provides:	opkele-devel = %{version}
-Provides:	%{name}-devel = %{version}
 Requires:	%{libname} = %{version}
+Provides:	opkele-devel = %{version}
+Provides:	%{mklibname opkele 1}-devel = %{version}
+Obsoletes:	%{mklibname opkele 1}-devel
 
-%description -n	%{libname}-devel
+%description -n	%{develname}
 libopkele is a C++ implementation of an OpenID decentralized identity system.
 It provides OpenID protocol handling, leaving authentication and user
 interaction to the implementor.
@@ -59,9 +61,10 @@ This package contains the static libopkele library and its header files.
 %build
 export WANT_AUTOCONF_2_5=1
 rm -f configure
-libtoolize --copy --force; aclocal-1.8; autoheader; automake --add-missing --copy; autoconf --force
+libtoolize --copy --force; aclocal; autoheader; automake --add-missing --copy; autoconf --force
 
-%configure2_5x
+%configure2_5x \
+    --with-pkgconfigdir=%{_libdir}/pkgconfig
 
 %make
 
@@ -82,7 +85,7 @@ libtoolize --copy --force; aclocal-1.8; autoheader; automake --add-missing --cop
 %doc AUTHORS COPYING NEWS
 %{_libdir}/*.so.*
 
-%files -n %{libname}-devel
+%files -n %{develname}
 %defattr(-,root,root)
 %dir %{_includedir}/opkele
 %{_includedir}/opkele/*
@@ -90,5 +93,3 @@ libtoolize --copy --force; aclocal-1.8; autoheader; automake --add-missing --cop
 %{_libdir}/*.a
 %{_libdir}/*.la
 %{_libdir}/pkgconfig/*.pc
-
-
