@@ -16,11 +16,11 @@ BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	doxygen
 BuildRequires:	libxslt-proc
-BuildRequires:	libkonforka-devel
-BuildRequires:	libcurl-devel
+BuildRequires:	konforka-devel
+BuildRequires:	curl-devel
 BuildRequires:	openssl-devel
-BuildRequires:	libpcre-devel
-BuildRequires:	libpcre++-devel
+BuildRequires:	pcre-devel
+BuildRequires:	pcre++-devel
 BuildRequires:	pqxx-devel
 BuildRequires:	postgresql-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
