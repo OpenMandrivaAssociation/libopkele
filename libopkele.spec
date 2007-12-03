@@ -5,7 +5,7 @@
 Summary:	C++ implementation of OpenID protocol
 Name:		libopkele
 Version:	0.3.2
-Release:	%mkrel 1
+Release:	%mkrel 2
 Group:		System/Libraries
 License:	MIT
 URL:		http://kin.klever.net/libopkele/
@@ -20,7 +20,6 @@ BuildRequires:	konforka-devel
 BuildRequires:	curl-devel
 BuildRequires:	openssl-devel
 BuildRequires:	pcre-devel
-BuildRequires:	pcre++-devel
 BuildRequires:	pqxx-devel
 BuildRequires:	postgresql-devel
 BuildRequires:	graphviz
