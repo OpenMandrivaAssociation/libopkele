@@ -23,6 +23,7 @@ BuildRequires:	pcre-devel
 BuildRequires:	pqxx-devel
 BuildRequires:	postgresql-devel
 BuildRequires:	graphviz
+BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 %description
 libopkele is a C++ implementation of an OpenID decentralized identity system.
