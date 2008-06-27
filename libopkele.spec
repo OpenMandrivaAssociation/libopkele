@@ -10,6 +10,7 @@ Group:		System/Libraries
 License:	MIT
 URL:		http://kin.klever.net/libopkele/
 Source0:	http://kin.klever.net/dist/%{name}-%{version}.tar.gz
+Patch0:		libopkele-gcc43.diff
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	curl-devel
@@ -62,6 +63,7 @@ This package contains the static libopkele library and its header files.
 %prep
 
 %setup -q -n %{name}-%{version}
+%patch0 -p1
 
 perl -pi -e "s|tidy/tidy\.h|tidy\.h|g" configure*
 
@@ -73,7 +75,7 @@ libtoolize --copy --force; aclocal; autoheader; automake --add-missing --copy; a
 %configure2_5x \
     --with-pkgconfigdir=%{_libdir}/pkgconfig
 
-make
+%make
 
 %install
 rm -rf %{buildroot}
