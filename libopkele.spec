@@ -1,29 +1,33 @@
-%define	major 2
+%define	major 3
 %define libname %mklibname opkele %{major}
 %define develname %mklibname opkele -d
 
 Summary:	C++ implementation of OpenID protocol
 Name:		libopkele
-Version:	0.3.2
-Release:	%mkrel 3
+Version:	2.0
+Release:	%mkrel 1
 Group:		System/Libraries
 License:	MIT
 URL:		http://kin.klever.net/libopkele/
 Source0:	http://kin.klever.net/dist/%{name}-%{version}.tar.gz
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtool
-BuildRequires:	pkgconfig
-BuildRequires:	doxygen
-BuildRequires:	libxslt-proc
-BuildRequires:	konforka-devel
 BuildRequires:	curl-devel
+BuildRequires:	doxygen
+BuildRequires:	e2fsprogs-devel
+BuildRequires:	expat-devel
+BuildRequires:	graphviz
+BuildRequires:	konforka-devel
+BuildRequires:	libpqxx-devel
+BuildRequires:	libtool
+BuildRequires:	libxslt-proc
 BuildRequires:	openssl-devel
 BuildRequires:	pcre-devel
-BuildRequires:	libpqxx-devel
+BuildRequires:	pkgconfig
 BuildRequires:	postgresql-devel
-BuildRequires:	graphviz
-BuildRoot:	%{_tmppath}/%{name}-%{version}-root
+BuildRequires:	sqlite3-devel
+BuildRequires:	tidy-devel
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 libopkele is a C++ implementation of an OpenID decentralized identity system.
@@ -59,6 +63,8 @@ This package contains the static libopkele library and its header files.
 
 %setup -q -n %{name}-%{version}
 
+perl -pi -e "s|tidy/tidy\.h|tidy\.h|g" configure*
+
 %build
 export WANT_AUTOCONF_2_5=1
 rm -f configure
@@ -70,7 +76,7 @@ libtoolize --copy --force; aclocal; autoheader; automake --add-missing --copy; a
 %make
 
 %install
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %makeinstall_std
 
@@ -83,7 +89,7 @@ libtoolize --copy --force; aclocal; autoheader; automake --add-missing --copy; a
 %endif
 
 %clean
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %files -n %{libname}
 %defattr(-,root,root)
