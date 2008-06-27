@@ -5,7 +5,7 @@
 Summary:	C++ implementation of OpenID protocol
 Name:		libopkele
 Version:	2.0
-Release:	%mkrel 1
+Release:	%mkrel 2
 Group:		System/Libraries
 License:	MIT
 URL:		http://kin.klever.net/libopkele/
@@ -50,7 +50,7 @@ Requires:	%{libname} = %{version}
 Provides:	opkele-devel = %{version}-%{release}
 Provides:	%{name} = %{version}-%{release}
 Obsoletes:	%{mklibname opkele 1 -d}
-Obsoletes:	%{mklibname opkele 2 -d}
+Conflicts:	%{mklibname opkele 2 -d}
 
 %description -n	%{develname}
 libopkele is a C++ implementation of an OpenID decentralized identity system.
