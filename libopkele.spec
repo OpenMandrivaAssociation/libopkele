@@ -73,7 +73,7 @@ libtoolize --copy --force; aclocal; autoheader; automake --add-missing --copy; a
 %configure2_5x \
     --with-pkgconfigdir=%{_libdir}/pkgconfig
 
-%make
+make
 
 %install
 rm -rf %{buildroot}
