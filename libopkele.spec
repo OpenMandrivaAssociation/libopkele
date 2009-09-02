@@ -4,12 +4,12 @@
 
 Summary:	C++ implementation of OpenID protocol
 Name:		libopkele
-Version:	2.0.2
+Version:	2.0.3
 Release:	%mkrel 1
 Group:		System/Libraries
 License:	MIT
 URL:		http://kin.klever.net/libopkele/
-Source0:	http://kin.klever.net/dist/%{name}-%{version}.tar.bz2
+Source0:	http://kin.klever.net/dist/%{name}-%{version}.tar.gz
 Patch0:		libopkele-2.0.2-fix-installation.patch
 Patch1:		libopkele-2.0.2-tidy-header.patch
 BuildRequires:	autoconf
