@@ -10,7 +10,6 @@ Group:		System/Libraries
 License:	MIT
 URL:		http://kin.klever.net/libopkele/
 Source0:	http://kin.klever.net/dist/%{name}-%{version}.tar.gz
-Patch0:		libopkele-2.0.2-fix-installation.patch
 Patch1:		libopkele-2.0.2-tidy-header.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -63,7 +62,6 @@ This package contains the static libopkele library and its header files.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch0 -p0
 %patch1 -p0
 
 %build
