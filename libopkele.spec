@@ -11,16 +11,14 @@ License:	MIT
 URL:		http://kin.klever.net/libopkele/
 Source0:	http://kin.klever.net/dist/%{name}-%{version}.tar.gz
 Patch1:		libopkele-2.0.2-tidy-header.patch
-BuildRequires:	autoconf
-BuildRequires:	automake
+BuildRequires:	autoconf automake libtool
 BuildRequires:	curl-devel
 BuildRequires:	doxygen
-BuildRequires:	e2fsprogs-devel
+BuildRequires:	ext2fs-devel
 BuildRequires:	expat-devel
 BuildRequires:	graphviz
 BuildRequires:	konforka-devel
 BuildRequires:	libpqxx-devel
-BuildRequires:	libtool
 BuildRequires:	libxslt-proc
 BuildRequires:	openssl-devel
 BuildRequires:	pcre-devel
@@ -28,7 +26,6 @@ BuildRequires:	pkgconfig
 BuildRequires:	postgresql-devel
 BuildRequires:	sqlite3-devel
 BuildRequires:	tidy-devel
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 libopkele is a C++ implementation of an OpenID decentralized identity system.
@@ -74,27 +71,15 @@ rm -rf %{buildroot}
 
 %makeinstall_std
 
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
-
-%clean
-rm -rf %{buildroot}
+# cleanups
+rm -f %{buildroot}%{_libdir}/*.*a
 
 %files -n %{libname}
-%defattr(-,root,root)
 %doc AUTHORS COPYING NEWS
 %{_libdir}/*.so.%{major}*
 
 %files -n %{develname}
-%defattr(-,root,root)
 %dir %{_includedir}/opkele
 %{_includedir}/opkele/*
 %{_libdir}/*.so
-%{_libdir}/*.a
-%{_libdir}/*.la
 %{_libdir}/pkgconfig/*.pc
