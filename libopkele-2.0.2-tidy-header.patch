@@ -1,0 +1,20 @@
+--- configure.ac	2009-09-02 10:38:32.000000000 +0200
++++ configure.ac.oden	2009-09-02 10:40:00.000000000 +0200
+@@ -152,7 +152,7 @@
+  AC_MSG_ERROR([no required expat library. get one from http://expat.sourceforge.net/])
+ ])
+ 
+-AC_CHECK_HEADERS([tidy.h tidy/tidy.h],[
++AC_CHECK_HEADERS([tidy.h tidy.h],[
+  test -z "$TIDY_LIBS" && AC_CHECK_LIB([tidy],[tidyParseBuffer],[
+   TIDY_LIBS=-ltidy
+   TIDY_CFLAGS=
+@@ -162,7 +162,7 @@
+   AC_MSG_ERROR([no required htmltidy library found. get one from http://tidy.sourceforge.net/])
+  ])
+ ],[
+- test -z "$TIDY_LIBS" -a "$ac_header" = "tidy/tidy.h" \
++ test -z "$TIDY_LIBS" -a "$ac_header" = "tidy.h" \
+  && AC_MSG_ERROR([no required htmltidy library found. get one from http://tidy.sourceforge.net/])
+ ])
+ 
