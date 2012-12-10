@@ -1,0 +1,36 @@
+Index: libopkele-2.0.4/include/opkele/discovery.h
+===================================================================
+--- libopkele-2.0.4.orig/include/opkele/discovery.h
++++ libopkele-2.0.4/include/opkele/discovery.h
+@@ -21,7 +21,7 @@ namespace opkele {
+ 		public:
+ 
+ 		    inline _DT& add(long priority,const _DT& d) {
+-			return insert(typename map_type::value_type(priority,d))->second;
++			return this->insert(typename map_type::value_type(priority,d))->second;
+ 		    }
+ 
+ 		    bool has_value(const _DT& d) const {
+Index: libopkele-2.0.4/test/test.cc
+===================================================================
+--- libopkele-2.0.4.orig/test/test.cc
++++ libopkele-2.0.4/test/test.cc
+@@ -1,5 +1,6 @@
+ #include <iostream>
+ #include <stdexcept>
++#include <unistd.h>
+ using namespace std;
+ #include <opkele/exception.h>
+ #include <opkele/util.h>
+Index: libopkele-2.0.4/test/idiscover.cc
+===================================================================
+--- libopkele-2.0.4.orig/test/idiscover.cc
++++ libopkele-2.0.4/test/idiscover.cc
+@@ -2,6 +2,7 @@
+ #include <stdexcept>
+ #include <iterator>
+ #include <algorithm>
++#include <unistd.h>
+ using namespace std;
+ #include <opkele/exception.h>
+ #include <opkele/discovery.h>
