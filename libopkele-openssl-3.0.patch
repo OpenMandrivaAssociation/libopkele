@@ -1,0 +1,71 @@
+diff -up libopkele-2.0.4/lib/basic_op.cc.omv~ libopkele-2.0.4/lib/basic_op.cc
+--- libopkele-2.0.4/lib/basic_op.cc.omv~	2022-10-24 12:06:54.496396560 +0200
++++ libopkele-2.0.4/lib/basic_op.cc	2022-10-24 12:12:38.975793072 +0200
+@@ -70,15 +70,18 @@ namespace opkele {
+ 	string sts = inm.get_field("session_type");
+ 	string ats = inm.get_field("assoc_type");
+ 	if(sts=="DH-SHA1" || sts=="DH-SHA256") {
++            BIGNUM *p, *g;
+ 	    if(!(dh = DH_new()))
+ 		throw exception_openssl(OPKELE_CP_ "failed to DH_new()");
+ 	    c_pub = util::base64_to_bignum(inm.get_field("dh_consumer_public"));
+-	    try { dh->p = util::base64_to_bignum(inm.get_field("dh_modulus"));
++	    try {
++                p = util::base64_to_bignum(inm.get_field("dh_modulus"));
+ 	    }catch(failed_lookup&) {
+-		dh->p = util::dec_to_bignum(data::_default_p); }
+-	    try { dh->g = util::base64_to_bignum(inm.get_field("dh_gen"));
++		p = util::dec_to_bignum(data::_default_p); }
++	    try { g = util::base64_to_bignum(inm.get_field("dh_gen"));
+ 	    }catch(failed_lookup&) {
+-		dh->g = util::dec_to_bignum(data::_default_g); }
++		g = util::dec_to_bignum(data::_default_g); }
++	    DH_set0_pqg(dh, p, NULL, g);
+ 	    if(!DH_generate_key(dh))
+ 		throw exception_openssl(OPKELE_CP_ "failed to DH_generate_key()");
+ 	    vector<unsigned char> ck(DH_size(dh)+1);
+@@ -113,7 +116,7 @@ namespace opkele {
+ 	    if(d_len != secret.size())
+ 		throw bad_input(OPKELE_CP_ "Association secret and session MAC are not of the same size");
+ 	    oum.set_field("session_type",sts);
+-	    oum.set_field("dh_server_public",util::bignum_to_base64(dh->pub_key));
++	    oum.set_field("dh_server_public",util::bignum_to_base64(DH_get0_pub_key(dh)));
+ 	    string b64; secret.enxor_to_base64(key_digest,b64);
+ 	    oum.set_field("enc_mac_key",b64);
+ 	}else /* TODO: support cleartext over encrypted connection */
+diff -up libopkele-2.0.4/lib/basic_rp.cc.omv~ libopkele-2.0.4/lib/basic_rp.cc
+--- libopkele-2.0.4/lib/basic_rp.cc.omv~	2022-10-24 12:02:43.719628070 +0200
++++ libopkele-2.0.4/lib/basic_rp.cc	2022-10-24 12:06:45.827335841 +0200
+@@ -80,16 +80,15 @@ namespace opkele {
+ 	util::dh_t dh = DH_new();
+ 	if(!dh)
+ 	    throw exception_openssl(OPKELE_CP_ "failed to DH_new()");
+-	dh->p = util::dec_to_bignum(data::_default_p);
+-	dh->g = util::dec_to_bignum(data::_default_g);
++	DH_set0_pqg(dh, util::dec_to_bignum(data::_default_p), NULL, util::dec_to_bignum(data::_default_g));
+ 	if(!DH_generate_key(dh))
+ 	    throw exception_openssl(OPKELE_CP_ "failed to DH_generate_key()");
+ 	openid_message_t req;
+ 	req.set_field("ns",OIURI_OPENID20);
+ 	req.set_field("mode","associate");
+-	req.set_field("dh_modulus",util::bignum_to_base64(dh->p));
+-	req.set_field("dh_gen",util::bignum_to_base64(dh->g));
+-	req.set_field("dh_consumer_public",util::bignum_to_base64(dh->pub_key));
++	req.set_field("dh_modulus",util::bignum_to_base64(DH_get0_p(dh)));
++	req.set_field("dh_gen",util::bignum_to_base64(DH_get0_g(dh)));
++	req.set_field("dh_consumer_public",util::bignum_to_base64(DH_get0_pub_key(dh)));
+ 	openid_message_t res;
+ 	req.set_field("assoc_type","HMAC-SHA256");
+ 	req.set_field("session_type","DH-SHA256");
+diff -up libopkele-2.0.4/lib/curl.cc.omv~ libopkele-2.0.4/lib/curl.cc
+--- libopkele-2.0.4/lib/curl.cc.omv~	2022-10-24 12:01:40.811179681 +0200
++++ libopkele-2.0.4/lib/curl.cc	2022-10-24 12:01:54.128274794 +0200
+@@ -45,7 +45,7 @@ namespace opkele {
+ 	    || (r=easy_setopt(CURLOPT_MAXREDIRS,5))
+ 	    || (r=easy_setopt(CURLOPT_DNS_CACHE_TIMEOUT,120))
+ 	    || (r=easy_setopt(CURLOPT_DNS_USE_GLOBAL_CACHE,1))
+-	    || (r=easy_setopt(CURLOPT_USERAGENT,PACKAGE_NAME"/"PACKAGE_SRC_VERSION))
++	    || (r=easy_setopt(CURLOPT_USERAGENT,PACKAGE_NAME "/" PACKAGE_SRC_VERSION))
+ 	    || (r=easy_setopt(CURLOPT_TIMEOUT,20))
+ #ifdef	DISABLE_CURL_SSL_VERIFYHOST
+ 	    || (r=easy_setopt(CURLOPT_SSL_VERIFYHOST,0))

@@ -1,5 +1,5 @@
---- configure.ac	2009-09-02 10:38:32.000000000 +0200
-+++ configure.ac.oden	2009-09-02 10:40:00.000000000 +0200
+--- a/configure.ac	2009-09-02 10:38:32.000000000 +0200
++++ a/configure.ac.oden	2009-09-02 10:40:00.000000000 +0200
 @@ -152,7 +152,7 @@
   AC_MSG_ERROR([no required expat library. get one from http://expat.sourceforge.net/])
  ])
