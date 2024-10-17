@@ -8,7 +8,7 @@ Version:	2.0.4
 Release:	7
 Group:		System/Libraries
 License:	MIT
-URL:		http://kin.klever.net/libopkele/
+URL:		https://kin.klever.net/libopkele/
 Source0:	http://kin.klever.net/dist/%{name}-%{version}.tar.gz
 Patch1:		libopkele-2.0.2-tidy-header.patch
 Patch2:		libopkele-2.0.4-rosa-gcc47.patch
