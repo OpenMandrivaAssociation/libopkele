@@ -13,6 +13,8 @@ Source0:	http://kin.klever.net/dist/%{name}-%{version}.tar.gz
 Patch1:		libopkele-2.0.2-tidy-header.patch
 Patch2:		libopkele-2.0.4-rosa-gcc47.patch
 Patch3:		libopkele-openssl-3.0.patch
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
 BuildRequires:	autoconf automake libtool
 BuildRequires:	curl-devel
 BuildRequires:	doxygen
